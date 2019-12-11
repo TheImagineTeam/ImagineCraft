@@ -21,9 +21,12 @@ function initialize () {
     const windowOptions = {
       width: 1080,
       minWidth: 680,
-      height: 840,
+      height: 750,
+      transparent: true,
+      frame: false,
       title: app.getName(),
       webPreferences: {
+        webviewTag: true,
         nodeIntegration: true
       }
     }
