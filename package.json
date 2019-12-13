@@ -17,6 +17,7 @@
   },
   "homepage": "https://gitlab.com/imagineteam1/minecraft/imaginecraft#readme",
   "dependencies": {
+    "buttercup": "^2.16.1",
     "electron": "^7.1.4",
     "glob": "^7.1.6"
   }
