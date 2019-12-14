@@ -1,0 +1,21 @@
+.console-container {
+    position: absolute;
+    top: 100px;
+    left: 40px;
+    right: 40px;
+    height: 300px;
+}
+
+.console {
+    height: 350px !important;
+    border-radius: 5px
+}
+.console-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.cpb-1 {
+    height: 10px;
+}
