@@ -52,7 +52,7 @@
                 </div>
                 <div class="card-body" style="-webkit-app-region: no-drag">
                     <h4 class="card-title">Login To Minecraft</h4>
-                    <form>
+                    <form onsubmit="return false">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email address</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
@@ -76,12 +76,12 @@
 
                 const {
                     BrowserWindow
-                } = electron.remote;
+                } = require('electron').remote;
 
                 const ipc = electron.ipcRenderer;
 
                 function init() {
-                    const { BrowserWindow } = require('electron')
+                    const { BrowserWindow } = require('electron').remote;
 
                     // Close app
                     document.getElementById("close-btn").addEventListener("click", (e) => {
