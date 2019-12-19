@@ -54,13 +54,13 @@
                     <h4 class="card-title">Login To Minecraft</h4>
                     <form onsubmit="return false">
                         <div class="form-group">
-                            <label for="loginName">Email address</label>
-                            <input type="email" class="form-control" id="loginName"
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email">
                         </div>
                         <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword"
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
                                 placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary" id="login">Sign In</button>
@@ -74,11 +74,15 @@
                 // Retrieve remote BrowserWindow
                 const electron = require('electron');
 
-                const { BrowserWindow } = require('electron').remote;
+                const {
+                    BrowserWindow
+                } = require('electron').remote;
 
                 const ipc = electron.ipcRenderer;
 
                 function init() {
+                    const { BrowserWindow } = require('electron').remote;
+
                     // Close app
                     document.getElementById("close-btn").addEventListener("click", (e) => {
                         var window = BrowserWindow.getFocusedWindow();
@@ -86,7 +90,7 @@
                     });
 
                     document.getElementById("login").addEventListener("click", (e) => {
-                        ipc.send('login', document.getElementById('loginName').value, document.getElementById('loginPassword').value)
+                        ipc.send('login', document.getElementById('exampleInputEmail1').value, document.getElementById('exampleInputPassword1').value)
                     });
                 };
 
