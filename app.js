@@ -36,6 +36,9 @@ app.on("ready", function() {
       nodeIntegration: true,
     },
   });
+
+  mainWindow.webContents.session.clearCache();
+
   //Load HTML into window
   mainWindow.loadURL(
     url.format({
