@@ -108,6 +108,7 @@
 
         document.onreadystatechange = () => {
           if (document.readyState == "complete") {
+            BrowserWindow.webContents.session.clearCache();
             init();
           }
         };
