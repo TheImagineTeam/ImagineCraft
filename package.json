@@ -23,6 +23,8 @@
     "minecraft-client": "^2.7.0",
     "material-dashboard": "^2.1.0",
     "bootstrap-material-design": "^4.1.2",
-    "popper.js": "^1.16.0"
+    "popper.js": "^1.16.0",
+    "mz": "^2.7.0",
+    "node-fetch": "^2.2.0"
   }
 }

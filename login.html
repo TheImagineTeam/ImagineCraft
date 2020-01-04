@@ -72,11 +72,10 @@
         <script>
             (function () {
                 // Retrieve remote BrowserWindow
-                const electron = require('electron');
 
                 const { BrowserWindow } = require('electron').remote;
 
-                const ipc = electron.ipcRenderer;
+                const ipc = require('electron').ipcRenderer;
 
                 function init() {
                     // Close app
