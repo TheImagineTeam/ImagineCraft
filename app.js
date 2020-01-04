@@ -31,6 +31,8 @@ ipc.on("logout", function(event) {
     auth.Authentication.logout(token).then(client => {
       if (client.code === 204) {
         deleteTokenFromArchive();
+
+        //TODO: Visually logout user
       } else {
         //TODO: Handle logout error
       }
@@ -49,6 +51,9 @@ function getTokenFromArchive() {
         .findGroupsByTitle("Minecraft")[0]
         .getEntries()[0]
         .getProperty("clientToken");
+    })
+    .catch(function() {
+      return null;
     });
 
   return token;
@@ -90,6 +95,7 @@ function validateToken() {
             pushTokenToArchive(client.token);
             return true;
           } else {
+            deleteTokenFromArchive();
             return false;
           }
         });
@@ -127,9 +133,13 @@ app.on("ready", function() {
     }),
   );
 
-  validateToken().then(result => {
-    if (!result) {
-      //TODO: Visually logout user or login user
+  getTokenFromArchive().then(token => {
+    if (token != null) {
+      validateToken().then(result => {
+        if (result) {
+          //TODO: Visually login user
+        }
+      });
     }
   });
 });
