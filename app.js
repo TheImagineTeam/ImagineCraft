@@ -90,7 +90,7 @@ function deleteTokenFromArchive() {
 }
 
 function validateToken() {
-  let result = getTokenFromArchive().then(token => {
+  return getTokenFromArchive().then(token => {
     return auth.Authentication.validate(token).then(client => {
       if (client.code !== 204) {
         return auth.Authentication.refresh(token).then(client => {
@@ -107,8 +107,6 @@ function validateToken() {
       }
     });
   });
-
-  return result;
 }
 
 //Listen for app to ready
