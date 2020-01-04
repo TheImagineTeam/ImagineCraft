@@ -11,6 +11,7 @@ const ipc = require("electron").ipcMain;
 const { app, BrowserWindow } = require("electron");
 
 if (process.mas) app.setName("ImagineCraft");
+app.allowRendererProcessReuse = true;
 
 let mainWindow = null;
 
