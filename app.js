@@ -119,7 +119,7 @@ app.on("ready", function() {
     resizable: false,
     width: 1100,
     height: 600,
-    transparent: false,
+    transparent: true,
     frame: false,
     show: false,
     webPreferences: {
