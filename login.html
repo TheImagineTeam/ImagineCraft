@@ -1,101 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>News</title>
     <link href="assets/css/material-dashboard.min.css" rel="stylesheet" />
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+    />
+  </head>
 
-</head>
+  <body style="overflow:hidden; -webkit-app-region: drag">
+    <div
+      style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;"
+    >
+      <nav class="navbar navbar-expand-lg bg-primary">
+        <a class="navbar-brand" href="#">ImagineCraft</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="news.html"
+                >News<span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="vanilla.html">Vanilla</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="moded.html">Modded</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="changelog.html">Changelog</a>
+            </li>
+          </ul>
 
-<body style="overflow:hidden; -webkit-app-region: drag">
-    <div style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;">
-        <nav class="navbar navbar-expand-lg bg-primary">
-            <a class="navbar-brand" href="#">ImagineCraft</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar navbar-kebab"></span>
-                <span class="navbar-toggler-bar navbar-kebab"></span>
-                <span class="navbar-toggler-bar navbar-kebab"></span>
+          <div style="padding-left: 300px;" class="form-group no-border">
+            <input type="text" class="form-control" placeholder="" disabled />
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-info btn-icon btn-round">
+              <i class="material-icons">account_circle</i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="news.html">News<span
-                                class="sr-only">(current)</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="vanilla.html">Vanilla</a></li>
-                    <li class="nav-item"><a class="nav-link" href="moded.html">Modded</a></li>
-                    <li class="nav-item"><a class="nav-link" href="changelog.html">Changelog</a></li>
-                </ul>
-
-                <div style="padding-left: 300px;" class="form-group no-border">
-                    <input type="text" class="form-control" placeholder="" disabled>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-info btn-icon btn-round">
-                        <i class="material-icons">account_circle</i>
-                    </button>
-                    <button id="close-btn" class="btn btn-danger btn-icon btn-round">
-                        <i class="material-icons">close</i>
-                    </button>
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div class="card">
-                <div class="card-header card-header-icon card-header-rose">
-                    <div class="card-icon">
-                        <i class="material-icons">vpn_key</i>
-                    </div>
-                </div>
-                <div class="card-body" style="-webkit-app-region: no-drag">
-                    <h4 class="card-title">Login To Minecraft</h4>
-                    <form onsubmit="return false">
-                        <div class="form-group">
-                            <label for="loginName">Email address</label>
-                            <input type="email" class="form-control" id="loginName"
-                                aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword"
-                                placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="login">Sign In</button>
-                    </form>
-                </div>
-            </div>
+            <button id="close-btn" class="btn btn-danger btn-icon btn-round">
+              <i class="material-icons">close</i>
+            </button>
+          </div>
         </div>
-        <!--We should not do this here, but I'm a bad boi-->
-        <script>
-            (function () {
-                // Retrieve remote BrowserWindow
+      </nav>
+      <div class="container">
+        <div class="card">
+          <div class="card-header card-header-icon card-header-rose">
+            <div class="card-icon">
+              <i class="material-icons">vpn_key</i>
+            </div>
+          </div>
+          <div class="card-body" style="-webkit-app-region: no-drag">
+            <h4 class="card-title">Login To Minecraft</h4>
+            <form onsubmit="return false">
+              <div class="form-group">
+                <label for="loginName">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="loginName"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Password"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary" id="login">
+                Sign In
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--We should not do this here, but I'm a bad boi-->
+    <script>
+      (function() {
+        // Retrieve remote BrowserWindow
 
-                const { BrowserWindow } = require('electron').remote;
+        const { BrowserWindow } = require("electron").remote;
 
-                const ipc = require('electron').ipcRenderer;
+        const ipc = require("electron").ipcRenderer;
 
-                function init() {
-                    // Close app
-                    document.getElementById("close-btn").addEventListener("click", (e) => {
-                        var window = BrowserWindow.getFocusedWindow();
-                        window.close();
-                    });
+        function init() {
+          // Close app
+          document.getElementById("close-btn").addEventListener("click", e => {
+            var window = BrowserWindow.getFocusedWindow();
+            window.close();
+          });
 
-                    document.getElementById("login").addEventListener("click", (e) => {
-                        ipc.send('login', document.getElementById('loginName').value, document.getElementById('loginPassword').value)
-                    });
-                };
+          document.getElementById("login").addEventListener("click", e => {
+            ipc.send(
+              "login",
+              document.getElementById("loginName").value,
+              document.getElementById("loginPassword").value,
+            );
+          });
+        }
 
-                document.onreadystatechange = () => {
-                    if (document.readyState == "complete") {
-                        init();
-                    }
-                };
-            })();
-        </script>
-</body>
-
+        document.onreadystatechange = () => {
+          if (document.readyState == "complete") {
+            init();
+          }
+        };
+      })();
+    </script>
+  </body>
 </html>

@@ -22,8 +22,7 @@ app.on("window-all-closed", function() {
 ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
     pushTokenToArchive(client.token);
-
-    //TODO: Visually login user
+    handleLogin();
   });
 });
 
@@ -32,8 +31,7 @@ ipc.on("logout", function(event) {
     auth.Authentication.logout(token).then(client => {
       if (client.code === 204) {
         deleteTokenFromArchive();
-
-        //TODO: Visually logout user
+        handleLogout();
       } else {
         //TODO: Handle logout error
       }
@@ -134,7 +132,7 @@ app.on("ready", function() {
     if (token != null) {
       validateToken().then(result => {
         if (result) {
-          //TODO: Visually login user
+          handleLogin();
         }
       });
     }
