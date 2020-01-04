@@ -40,6 +40,10 @@ ipc.on("logout", function(event) {
   });
 });
 
+function handleLogin() {}
+
+function handleLogout() {}
+
 function getTokenFromArchive() {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
@@ -114,8 +118,9 @@ app.on("ready", function() {
     resizable: false,
     width: 1100,
     height: 600,
-    transparent: true,
+    transparent: false,
     frame: false,
+    show: false,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
@@ -123,6 +128,16 @@ app.on("ready", function() {
   });
 
   mainWindow.webContents.session.clearCache();
+
+  getTokenFromArchive().then(token => {
+    if (token != null) {
+      validateToken().then(result => {
+        if (result) {
+          //TODO: Visually login user
+        }
+      });
+    }
+  });
 
   //Load HTML into window
   mainWindow.loadURL(
@@ -133,13 +148,7 @@ app.on("ready", function() {
     }),
   );
 
-  getTokenFromArchive().then(token => {
-    if (token != null) {
-      validateToken().then(result => {
-        if (result) {
-          //TODO: Visually login user
-        }
-      });
-    }
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
   });
 });
