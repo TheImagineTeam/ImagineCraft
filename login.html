@@ -137,15 +137,7 @@
 
           let player = ipc.sendSync("getplayer");
           if (player != null) {
-            document.getElementById("playername").placeholder = player.name;
-            let playerhead = document.getElementById("playerhead");
-            playerhead.href = "loggedin.html";
-            let playerheadChildrens = playerhead.childNodes;
-            playerheadChildrens[1].remove();
-            let img = document.createElement("img");
-            img.src = "https://minotar.net/helm/" + player.uuid + "/100.png";
-            img.style = "max-width: 15px";
-            playerhead.appendChild(img);
+            window.location.href = "loggedin.html";
           }
         }
 
