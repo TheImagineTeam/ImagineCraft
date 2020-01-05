@@ -54,12 +54,22 @@
             </ul>
 
             <div style="padding-left: 300px;" class="form-group no-border">
-              <input type="text" class="form-control" placeholder="" disabled />
+              <input
+                id="playername"
+                type="text"
+                class="form-control"
+                placeholder=""
+                disabled
+              />
             </div>
             <div class="btn-group">
-              <button class="btn btn-info btn-icon btn-round">
+              <a
+                href="login.html"
+                id="playerhead"
+                class="btn btn-info btn-icon btn-round"
+              >
                 <i class="material-icons">account_circle</i>
-              </button>
+              </a>
               <button id="close-btn" class="btn btn-danger btn-icon btn-round">
                 <i class="material-icons">close</i>
               </button>
@@ -107,9 +117,7 @@
     <script>
       (function() {
         // Retrieve remote BrowserWindow
-
         const { BrowserWindow } = require("electron").remote;
-
         const ipc = require("electron").ipcRenderer;
 
         function init() {
@@ -126,6 +134,19 @@
               document.getElementById("loginPassword").value,
             );
           });
+
+          let player = ipc.sendSync("getplayer");
+          if (player != null) {
+            document.getElementById("playername").placeholder = player.name;
+            let playerhead = document.getElementById("playerhead");
+            playerhead.href = "loggedin.html";
+            let playerheadChildrens = playerhead.childNodes;
+            playerheadChildrens[1].remove();
+            let img = document.createElement("img");
+            img.src = "https://minotar.net/helm/" + player.uuid + "/100.png";
+            img.style = "max-width: 15px";
+            playerhead.appendChild(img);
+          }
         }
 
         document.onreadystatechange = () => {

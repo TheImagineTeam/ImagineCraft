@@ -22,8 +22,9 @@ app.on("window-all-closed", function() {
 ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
     if (client.result) {
-      pushPlayerToArchive(client.token, client.uuid, client.name);
-      handleLogin(true);
+      pushPlayerToArchive(client.token, client.uuid, client.name).then(() => {
+        redirectLogin();
+      });
     } else {
       //TODO: Handle login error
     }
@@ -34,8 +35,9 @@ ipc.on("logout", function(event) {
   getPlayerFromArchive().then(player => {
     auth.Authentication.logout(player.token).then(result => {
       if (result.code === 204) {
-        deletePlayerFromArchive();
-        handleLogout();
+        deletePlayerFromArchive().then(() => {
+          redirectLogout();
+        });
       } else {
         //TODO: Handle logout error
       }
@@ -43,23 +45,33 @@ ipc.on("logout", function(event) {
   });
 });
 
-function handleLogin(redirect) {
-  //redirect to loggedin (if not handleLogin on start), fill user info in 3 places on loggedin and 2 places on every page
-  //enable start button only if loggedin
-  if (redirect) {
-    mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, "loggedin.html"),
-        protocol: "file",
-        slashes: true,
-      }),
-    );
-  }
+ipc.on("getplayer", function(event) {
+  getPlayerFromArchive().then(player => {
+    event.returnValue = player;
+  });
+});
+
+function redirectLogin() {
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, "loggedin.html"),
+      protocol: "file",
+      slashes: true,
+    }),
+  );
 }
 
-function handleLogout() {}
+function redirectLogout() {
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, "login.html"),
+      protocol: "file",
+      slashes: true,
+    }),
+  );
+}
 
-function getPlayerFromArchive() {
+async function getPlayerFromArchive() {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   return fileDatasource
@@ -78,7 +90,7 @@ function getPlayerFromArchive() {
     });
 }
 
-function pushPlayerToArchive(token, uuid, name) {
+async function pushPlayerToArchive(token, uuid, name) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   archive
@@ -88,10 +100,10 @@ function pushPlayerToArchive(token, uuid, name) {
     .setProperty("uuid", uuid)
     .setProperty("name", name);
 
-  fileDatasource.save(archive.getHistory(), credentials);
+  return fileDatasource.save(archive.getHistory(), credentials);
 }
 
-function pushTokenToPlayerArchive(token) {
+async function pushTokenToPlayerArchive(token) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   fileDatasource
@@ -103,11 +115,11 @@ function pushTokenToPlayerArchive(token) {
         .getEntries()[0]
         .setProperty("clientToken", token);
 
-      fileDatasource.save(archive.getHistory(), credentials);
+      return fileDatasource.save(archive.getHistory(), credentials);
     });
 }
 
-function deletePlayerFromArchive() {
+async function deletePlayerFromArchive() {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   fileDatasource
@@ -119,21 +131,23 @@ function deletePlayerFromArchive() {
         .getEntries()
         .forEach(entry => entry.delete(true));
 
-      fileDatasource.save(archive.getHistory(), credentials);
+      return fileDatasource.save(archive.getHistory(), credentials);
     });
 }
 
-function validateToken() {
+async function validateToken() {
   return getPlayerFromArchive().then(player => {
     return auth.Authentication.validate(player.token).then(client1 => {
       if (client1.code !== 204) {
         return auth.Authentication.refresh(player.token).then(client2 => {
           if (client2.result) {
-            pushTokenToPlayerArchive(client2.token);
-            return true;
+            pushTokenToPlayerArchive(client2.token).then(() => {
+              return true;
+            });
           } else {
-            deletePlayerFromArchive();
-            return false;
+            deletePlayerFromArchive().then(() => {
+              return false;
+            });
           }
         });
       } else {
@@ -163,8 +177,8 @@ app.on("ready", function() {
   getPlayerFromArchive().then(player => {
     if (player != null && player.token != null) {
       validateToken().then(result => {
-        if (result) {
-          handleLogin(false);
+        if (!result) {
+          redirectLogout();
         }
       });
     }

@@ -55,20 +55,21 @@
 
             <div style="padding-left: 300px;" class="form-group no-border">
               <input
+                id="playername"
                 type="text"
                 class="form-control"
-                placeholder="DomiiBunn"
+                placeholder=""
                 disabled
               />
             </div>
             <div class="btn-group">
-              <button class="btn btn-info btn-icon btn-round">
-                <img
-                  src="https://minotar.net/helm/993b7c94d4064d36ac0d586318ee740b/100.png"
-                  style="max-width: 15px"
-                  alt=""
-                />
-              </button>
+              <a
+                href="login.html"
+                id="playerhead"
+                class="btn btn-info btn-icon btn-round"
+              >
+                <i class="material-icons">account_circle</i>
+              </a>
               <button id="close-btn" class="btn btn-danger btn-icon btn-round">
                 <i class="material-icons">close</i>
               </button>
@@ -80,7 +81,11 @@
             <div class="card-header">
               <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                  <a class="nav-link active" href="#0">DomiiBunn</a>
+                  <a
+                    id="playername_selector"
+                    class="nav-link active"
+                    href="#0"
+                  ></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#0">
@@ -90,10 +95,11 @@
               </ul>
             </div>
             <div class="card-body">
-              <h4 class="card-title">DomiiBunn</h4>
+              <h4 id="playername_body" class="card-title"></h4>
               <div class="row pb-2">
                 <div class="col">
                   <img
+                    id="skin"
                     src="https://minotar.net/armor/body/993b7c94d4064d36ac0d586318ee740b/100.png"
                     alt=""
                   />
@@ -110,7 +116,6 @@
       (function() {
         // Retrieve remote BrowserWindow
         const { BrowserWindow } = require("electron").remote;
-
         const ipc = require("electron").ipcRenderer;
 
         function init() {
@@ -123,6 +128,25 @@
           document.getElementById("logout").addEventListener("click", e => {
             ipc.send("logout");
           });
+
+          let player = ipc.sendSync("getplayer");
+          if (player != null) {
+            document.getElementById("playername_selector").innerHTML =
+              player.name;
+            document.getElementById("playername_body").innerHTML = player.name;
+            document.getElementById("skin").src =
+              "https://minotar.net/armor/body/" + player.uuid + "/100.png";
+
+            document.getElementById("playername").placeholder = player.name;
+            let playerhead = document.getElementById("playerhead");
+            playerhead.href = "loggedin.html";
+            let playerheadChildrens = playerhead.childNodes;
+            playerheadChildrens[1].remove();
+            let img = document.createElement("img");
+            img.src = "https://minotar.net/helm/" + player.uuid + "/100.png";
+            img.style = "max-width: 15px";
+            playerhead.appendChild(img);
+          }
         }
 
         document.onreadystatechange = () => {
