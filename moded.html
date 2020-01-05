@@ -17,98 +17,112 @@
   </head>
 
   <body style="overflow:hidden; -webkit-app-region: drag">
-    <div
-      style="width: 1100px; height: 600px; border-radius: 10px; background-image: url('https://launcher.imagine.team/moded.png'); background-size: cover;"
-    >
-      <nav class="navbar navbar-expand-lg bg-primary">
-        <a class="navbar-brand" href="#">ImagineCraft</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="news.html"
-                >News<span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vanilla.html">Vanilla</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="moded.html">Modded</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="changelog.html">Changelog</a>
-            </li>
-          </ul>
-
-          <div style="padding-left: 300px;" class="form-group no-border">
-            <input type="text" class="form-control" placeholder="omiiBunn" disabled />
-          </div>
-          <div class="btn-group">
-            <a href="login.html" class="btn btn-info btn-icon btn-round">
-              <i class="material-icons">account_circle</i>
-            </a>
-            <button id="close-btn" class="btn btn-danger btn-icon btn-round">
-              <i class="material-icons">close</i>
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div class="bg">
       <div
-        style="padding-left: 600px; padding-right: 40px; padding-top: 200px;"
+        style="width: 1100px; height: 600px; border-radius: 10px; background-image: url('https://launcher.imagine.team/moded.png'); background-size: cover;"
       >
-        <div class="card card-pricing bg-warning">
-          <div class="card-body ">
-            <div class="card-icon">
-              <i class="material-icons text-white">play_circle_filled</i>
+        <nav class="navbar navbar-expand-lg bg-primary">
+          <a class="navbar-brand" href="#">ImagineCraft</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="news.html"
+                  >News<span class="sr-only">(current)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="vanilla.html">Vanilla</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="moded.html">Modded</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="changelog.html">Changelog</a>
+              </li>
+            </ul>
+
+            <div style="padding-left: 300px;" class="form-group no-border">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="omiiBunn"
+                disabled
+              />
             </div>
-            <h3 class="card-title">Modded</h3>
-            <p class="card-description">
-              Play with some Crazy Minecraft mods packed together just for the
-              ImagineTeam!
-            </p>
-            <a href="#pablo" class="btn btn-white btn-round" hidden>Play Now!</a>
-            <a href="#pablo" class="btn btn-white btn-round" hidden>Update</a>
-            <a href="#pablo" class="btn btn-white btn-round">Download</a>
+            <div class="btn-group">
+              <a href="login.html" class="btn btn-info btn-icon btn-round">
+                <i class="material-icons">account_circle</i>
+              </a>
+              <button id="close-btn" class="btn btn-danger btn-icon btn-round">
+                <i class="material-icons">close</i>
+              </button>
+            </div>
+          </div>
+        </nav>
+        <div
+          style="padding-left: 600px; padding-right: 40px; padding-top: 200px;"
+        >
+          <div class="card card-pricing bg-warning">
+            <div class="card-body ">
+              <div class="card-icon">
+                <i class="material-icons text-white">play_circle_filled</i>
+              </div>
+              <h3 class="card-title">Modded</h3>
+              <p class="card-description">
+                Play with some Crazy Minecraft mods packed together just for the
+                ImagineTeam!
+              </p>
+              <a href="#pablo" class="btn btn-white btn-round" hidden
+                >Play Now!</a
+              >
+              <a href="#pablo" class="btn btn-white btn-round" hidden>Update</a>
+              <a href="#pablo" class="btn btn-white btn-round">Download</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="console-container" hidden>
-        <div class="card">
-          <div class="card-header card-header-icon card-header-rose">
-            <div class="card-icon">
-              <i class="material-icons">aspect_ratio</i>
-              <div
-                class="btn-group btn-group-toggle console-btn"
-                data-toggle="buttons"
-              >
-                <label class="btn btn-primary btn-round">
-                  <i class="material-icons">cloud_upload</i>
-                </label>
-                <label class="btn btn-primary btn-round">
-                  <i class="material-icons">stop</i>
-                </label>
-                <label class="btn btn-primary btn-round">
-                  <i class="material-icons">close</i>
-                </label>
+        <div class="console-container" hidden>
+          <div class="card">
+            <div class="card-header card-header-icon card-header-rose">
+              <div class="card-icon">
+                <i class="material-icons">aspect_ratio</i>
+                <div
+                  class="btn-group btn-group-toggle console-btn"
+                  data-toggle="buttons"
+                >
+                  <label class="btn btn-primary btn-round">
+                    <i class="material-icons">cloud_upload</i>
+                  </label>
+                  <label class="btn btn-primary btn-round">
+                    <i class="material-icons">stop</i>
+                  </label>
+                  <label class="btn btn-primary btn-round">
+                    <i class="material-icons">close</i>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card-body" style="-webkit-app-region: no-drag">
-            <div class="cpb-1"></div>
-            <textarea class="console" readonly rows="18" cols="137"></textarea>
+            <div class="card-body" style="-webkit-app-region: no-drag">
+              <div class="cpb-1"></div>
+              <textarea
+                class="console"
+                readonly
+                rows="18"
+                cols="137"
+              ></textarea>
+            </div>
           </div>
         </div>
       </div>

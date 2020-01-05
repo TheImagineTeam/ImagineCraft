@@ -16,62 +16,69 @@
   </head>
 
   <body style="overflow:hidden; -webkit-app-region: drag">
-    <div
-      style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;"
-    >
-      <nav class="navbar navbar-expand-lg bg-primary">
-        <a class="navbar-brand" href="#">ImagineCraft</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="news.html"
-                >News<span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vanilla.html">Vanilla</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="moded.html">Modded</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="changelog.html">Changelog</a>
-            </li>
-          </ul>
+    <div class="bg">
+      <div
+        style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;"
+      >
+        <nav class="navbar navbar-expand-lg bg-primary">
+          <a class="navbar-brand" href="#">ImagineCraft</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="news.html"
+                  >News<span class="sr-only">(current)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="vanilla.html">Vanilla</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="moded.html">Modded</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="changelog.html">Changelog</a>
+              </li>
+            </ul>
 
-          <div style="padding-left: 300px;" class="form-group no-border">
-            <input type="text" class="form-control" placeholder="DomiiBunn" disabled />
+            <div style="padding-left: 300px;" class="form-group no-border">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="DomiiBunn"
+                disabled
+              />
+            </div>
+            <div class="btn-group">
+              <a href="login.html" class="btn btn-info btn-icon btn-round">
+                <i class="material-icons">account_circle</i>
+              </a>
+              <button id="close-btn" class="btn btn-danger btn-icon btn-round">
+                <i class="material-icons">close</i>
+              </button>
+            </div>
           </div>
-          <div class="btn-group">
-            <a href="login.html" class="btn btn-info btn-icon btn-round">
-              <i class="material-icons">account_circle</i>
-            </a>
-            <button id="close-btn" class="btn btn-danger btn-icon btn-round">
-              <i class="material-icons">close</i>
-            </button>
-          </div>
+        </nav>
+        <div style="border-radius: 10px !important;">
+          <webview
+            src="https://launcher.imagine.team/news.html"
+            autosize="off"
+            style="min-height: 450px;"
+          >
+          </webview>
         </div>
-      </nav>
-      <div style="border-radius: 10px !important;">
-        <webview
-          src="https://launcher.imagine.team/news.html"
-          autosize="off"
-          style="min-height: 450px;"
-        >
-        </webview>
       </div>
     </div>
     <!--WebView Scripts-->
