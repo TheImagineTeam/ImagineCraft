@@ -6,6 +6,7 @@ const { FileDatasource } = Datasources;
 const archive = Archive.createWithDefaults();
 const credentials = Credentials.fromPassword("masterpw");
 const auth = require("./auth.js");
+const launcher = require("./launcher.js");
 const ipc = require("electron").ipcMain;
 
 const { app, BrowserWindow } = require("electron");
@@ -22,7 +23,13 @@ app.on("window-all-closed", function() {
 ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
     if (client.result) {
-      pushPlayerToArchive(client.token, client.uuid, client.name).then(() => {
+      pushPlayerToArchive(
+        client.token,
+        client.uuid,
+        client.name,
+        client.clientToken,
+        client.userProperties,
+      ).then(() => {
         redirectLogin();
       });
     } else {
@@ -48,6 +55,34 @@ ipc.on("logout", function(event) {
 ipc.on("getplayer", function(event) {
   getPlayerFromArchive().then(player => {
     event.returnValue = player;
+  });
+});
+
+ipc.on("startmodded", function(event) {
+  getPlayerFromArchive().then(player => {
+    launcher.Launcher.launchModded(
+      new LauncherAuth(
+        player.token,
+        player.uuid,
+        player.name,
+        player.clientToken,
+        player.userProperties,
+      ),
+    );
+  });
+});
+
+ipc.on("startvanilla", function(event) {
+  getPlayerFromArchive().then(player => {
+    launcher.Launcher.launchVanilla(
+      new LauncherAuth(
+        player.token,
+        player.uuid,
+        player.name,
+        player.clientToken,
+        player.userProperties,
+      ),
+    );
   });
 });
 
@@ -80,9 +115,11 @@ async function getPlayerFromArchive() {
     .then(archive => {
       let entry = archive.findGroupsByTitle("Minecraft")[0].getEntries()[0];
       return new Player(
-        entry.getProperty("clientToken"),
+        entry.getProperty("accessToken"),
         entry.getProperty("uuid"),
         entry.getProperty("name"),
+        entry.getProperty("clientToken"),
+        entry.getProperty("userProperties"),
       );
     })
     .catch(function() {
@@ -90,15 +127,23 @@ async function getPlayerFromArchive() {
     });
 }
 
-async function pushPlayerToArchive(token, uuid, name) {
+async function pushPlayerToArchive(
+  token,
+  uuid,
+  name,
+  clientToken,
+  userProperties,
+) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   archive
     .createGroup("Minecraft")
     .createEntry("Player")
-    .setProperty("clientToken", token)
+    .setProperty("accessToken", token)
     .setProperty("uuid", uuid)
-    .setProperty("name", name);
+    .setProperty("name", name)
+    .setProperty("clientToken", clientToken)
+    .setProperty("userProperties", userProperties);
 
   return fileDatasource.save(archive.getHistory(), credentials);
 }
@@ -199,9 +244,20 @@ app.on("ready", function() {
 });
 
 class Player {
-  constructor(token, uuid, name) {
+  constructor(token, uuid, name, clientToken, userProperties) {
     this.token = token;
     this.uuid = uuid;
     this.name = name;
+    this.clientToken = clientToken;
+    this.userProperties = userProperties;
+  }
+}
+class LauncherAuth {
+  constructor(token, uuid, name, clientToken, userProperties) {
+    this.access_token = token;
+    this.uuid = uuid;
+    this.name = name;
+    this.client_token = clientToken;
+    this.user_properties = userProperties;
   }
 }

@@ -72,9 +72,12 @@ class Authentication {
         );
       else
         result = new ValidAuthenticationResult(
-          json["selectedProfile"]["name"],
+          //clientToken, selectedProfile, userProperties
           json["accessToken"],
           json["selectedProfile"]["id"],
+          json["selectedProfile"]["name"],
+          getUniqueIdentifier(),
+          json["user"]["properties"] || {},
         );
     } else {
       result = new GeneralAuthenticationResult(res.status);
@@ -158,10 +161,12 @@ class ValidateStrategy {
   }
 }
 class ValidAuthenticationResult {
-  constructor(name, token, uuid) {
-    this.name = name;
+  constructor(token, uuid, name, clientToken, userProperties) {
     this.token = token;
     this.uuid = uuid;
+    this.name = name;
+    this.clientToken = clientToken;
+    this.userProperties = userProperties;
     this.errorCause = "";
     this.errorMessage = "";
     this.errorType = "";
@@ -174,9 +179,11 @@ class ErrorAuthenticationResult {
     this.errorMessage = errorMessage;
     this.errorType = errorType;
     this.result = false;
-    this.name = "";
     this.token = "";
     this.uuid = "";
+    this.name = "";
+    this.clientToken = "";
+    this.userProperties = {};
   }
 }
 class GeneralAuthenticationResult {

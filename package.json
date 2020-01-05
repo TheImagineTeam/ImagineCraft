@@ -20,7 +20,7 @@
     "buttercup": "^2.16.1",
     "electron": "^7.1.7",
     "glob": "^7.1.6",
-    "minecraft-client": "^2.7.0",
+    "minecraft-launcher-core": "^3.11.6",
     "material-dashboard": "^2.1.0",
     "bootstrap-material-design": "^4.1.2",
     "popper.js": "^1.16.0",
