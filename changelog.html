@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>News</title>
-    <link href="assets/css/material-dashboard.min.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
-    />
-  </head>
 
-  <body style="overflow:hidden; -webkit-app-region: drag">
-    <div
-      style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;"
-    >
+<head>
+  <title>News</title>
+  <link href="assets/css/material-dashboard.min.css" rel="stylesheet" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+</head>
+
+<body style="overflow:hidden; -webkit-app-region: drag">
+  <div class="bg">
+    <div style="width: 1100px; height: 600px; border-radius: 10px; background-color: #EEEEEE;">
       <nav class="navbar navbar-expand-lg bg-primary">
         <a class="navbar-brand" href="#">ImagineCraft</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar navbar-kebab"></span>
           <span class="navbar-toggler-bar navbar-kebab"></span>
           <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -37,9 +24,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="news.html"
-                >News<span class="sr-only">(current)</span></a
-              >
+              <a class="nav-link" href="news.html">News<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="vanilla.html">Vanilla</a>
@@ -66,52 +51,53 @@
         </div>
       </nav>
       <div style="border-radius: 10px !important; -webkit-app-region: no-drag;">
-        <webview
-          src="https://launcher.imagine.team/changelog.html"
-          autosize="off"
-          style="min-height: 491px; width: 101.3%;"
-        >
+        <webview src="https://launcher.imagine.team/changelog.html" autosize="off"
+          style="min-height: 491px; width: 101.3%;">
         </webview>
       </div>
     </div>
-    <!--WebView Scripts-->
-    <script>
-      onload = () => {
-        const webview = document.querySelector("webview");
-        const indicator = document.querySelector(".indicator");
+  </div>
+  <!--WebView Scripts-->
+  <script>
+    onload = () => {
+      const webview = document.querySelector("webview");
+      const indicator = document.querySelector(".indicator");
 
-        const loadstart = () => {
-          indicator.innerText = "loading...";
-        };
-
-        const loadstop = () => {
-          indicator.innerText = "";
-        };
-
-        webview.addEventListener("did-start-loading", loadstart);
-        webview.addEventListener("did-stop-loading", loadstop);
+      const loadstart = () => {
+        indicator.innerText = "loading...";
       };
-    </script>
-    <!--Close Button-->
-    <script>
-      (function() {
-        // Retrieve remote BrowserWindow
-        const { BrowserWindow } = require("electron").remote;
 
-        function init() {
-          // Close app
-          document.getElementById("close-btn").addEventListener("click", e => {
-            var window = BrowserWindow.getFocusedWindow();
-            window.close();
-          });
+      const loadstop = () => {
+        indicator.innerText = "";
+      };
+
+      webview.addEventListener("did-start-loading", loadstart);
+      webview.addEventListener("did-stop-loading", loadstop);
+    };
+  </script>
+  <!--Close Button-->
+  <script>
+    (function () {
+      // Retrieve remote BrowserWindow
+      const {
+        BrowserWindow
+      } = require("electron").remote;
+
+      function init() {
+        // Close app
+        document.getElementById("close-btn").addEventListener("click", e => {
+          var window = BrowserWindow.getFocusedWindow();
+          window.close();
+        });
+      }
+
+      document.onreadystatechange = () => {
+        if (document.readyState == "complete") {
+          init();
         }
+      };
+    })();
+  </script>
+</body>
 
-        document.onreadystatechange = () => {
-          if (document.readyState == "complete") {
-            init();
-          }
-        };
-      })();
-    </script>
-  </body>
 </html>
