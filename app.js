@@ -106,7 +106,7 @@ async function pushPlayerToArchive(token, uuid, name) {
 async function pushTokenToPlayerArchive(token) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
-  fileDatasource
+  return fileDatasource
     .load(credentials)
     .then(Archive.createFromHistory)
     .then(archive => {
@@ -122,7 +122,7 @@ async function pushTokenToPlayerArchive(token) {
 async function deletePlayerFromArchive() {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
-  fileDatasource
+  return fileDatasource
     .load(credentials)
     .then(Archive.createFromHistory)
     .then(archive => {
