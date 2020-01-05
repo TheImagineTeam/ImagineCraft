@@ -23,7 +23,7 @@ ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
     if (client.result) {
       pushPlayerToArchive(client.token, client.uuid, client.name);
-      handleLogin();
+      handleLogin(true);
     } else {
       //TODO: Handle login error
     }
@@ -43,7 +43,19 @@ ipc.on("logout", function(event) {
   });
 });
 
-function handleLogin() {}
+function handleLogin(redirect) {
+  //redirect to loggedin (if not handleLogin on start), fill user info in 3 places on loggedin and 2 places on every page
+  //enable start button only if loggedin
+  if (redirect) {
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, "loggedin.html"),
+        protocol: "file",
+        slashes: true,
+      }),
+    );
+  }
+}
 
 function handleLogout() {}
 
@@ -152,7 +164,7 @@ app.on("ready", function() {
     if (player != null && player.token != null) {
       validateToken().then(result => {
         if (result) {
-          handleLogin();
+          handleLogin(false);
         }
       });
     }

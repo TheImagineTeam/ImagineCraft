@@ -13,12 +13,20 @@
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*/
 
- .card {
+.card {
     font-size: .875rem
 }
+
 .bg {
     background-color: #a83262;
     border-radius: 25px;
+}
+
+*, *::after, *::before {
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+	cursor: default;
 }
 
 @media print {
