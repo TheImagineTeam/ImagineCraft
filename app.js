@@ -21,16 +21,20 @@ app.on("window-all-closed", function() {
 
 ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
-    pushTokenToArchive(client.token);
-    handleLogin();
+    if (client.result) {
+      pushPlayerToArchive(client.token, client.uuid, client.name);
+      handleLogin();
+    } else {
+      //TODO: Handle login error
+    }
   });
 });
 
 ipc.on("logout", function(event) {
-  getTokenFromArchive().then(token => {
-    auth.Authentication.logout(token).then(client => {
-      if (client.code === 204) {
-        deleteTokenFromArchive();
+  getPlayerFromArchive().then(player => {
+    auth.Authentication.logout(player.token).then(result => {
+      if (result.code === 204) {
+        deletePlayerFromArchive();
         handleLogout();
       } else {
         //TODO: Handle logout error
@@ -43,37 +47,39 @@ function handleLogin() {}
 
 function handleLogout() {}
 
-function getTokenFromArchive() {
+function getPlayerFromArchive() {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
-  let token = fileDatasource
+  return fileDatasource
     .load(credentials)
     .then(Archive.createFromHistory)
     .then(archive => {
-      return archive
-        .findGroupsByTitle("Minecraft")[0]
-        .getEntries()[0]
-        .getProperty("clientToken");
+      let entry = archive.findGroupsByTitle("Minecraft")[0].getEntries()[0];
+      return new Player(
+        entry.getProperty("clientToken"),
+        entry.getProperty("uuid"),
+        entry.getProperty("name"),
+      );
     })
     .catch(function() {
       return null;
     });
-
-  return token;
 }
 
-function pushTokenToArchive(token) {
+function pushPlayerToArchive(token, uuid, name) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   archive
     .createGroup("Minecraft")
     .createEntry("Player")
-    .setProperty("clientToken", token);
+    .setProperty("clientToken", token)
+    .setProperty("uuid", uuid)
+    .setProperty("name", name);
 
   fileDatasource.save(archive.getHistory(), credentials);
 }
 
-function deleteTokenFromArchive() {
+function pushTokenToPlayerArchive(token) {
   let fileDatasource = new FileDatasource("./mcuser.bcup");
 
   fileDatasource
@@ -83,22 +89,38 @@ function deleteTokenFromArchive() {
       archive
         .findGroupsByTitle("Minecraft")[0]
         .getEntries()[0]
-        .deleteProperty("clientToken");
+        .setProperty("clientToken", token);
+
+      fileDatasource.save(archive.getHistory(), credentials);
+    });
+}
+
+function deletePlayerFromArchive() {
+  let fileDatasource = new FileDatasource("./mcuser.bcup");
+
+  fileDatasource
+    .load(credentials)
+    .then(Archive.createFromHistory)
+    .then(archive => {
+      archive
+        .findGroupsByTitle("Minecraft")[0]
+        .getEntries()
+        .forEach(entry => entry.delete(true));
 
       fileDatasource.save(archive.getHistory(), credentials);
     });
 }
 
 function validateToken() {
-  return getTokenFromArchive().then(token => {
-    return auth.Authentication.validate(token).then(client => {
-      if (client.code !== 204) {
-        return auth.Authentication.refresh(token).then(client => {
-          if (client.result) {
-            pushTokenToArchive(client.token);
+  return getPlayerFromArchive().then(player => {
+    return auth.Authentication.validate(player.token).then(client1 => {
+      if (client1.code !== 204) {
+        return auth.Authentication.refresh(player.token).then(client2 => {
+          if (client2.result) {
+            pushTokenToPlayerArchive(client2.token);
             return true;
           } else {
-            deleteTokenFromArchive();
+            deletePlayerFromArchive();
             return false;
           }
         });
@@ -126,8 +148,8 @@ app.on("ready", function() {
 
   mainWindow.webContents.session.clearCache();
 
-  getTokenFromArchive().then(token => {
-    if (token != null) {
+  getPlayerFromArchive().then(player => {
+    if (player != null && player.token != null) {
       validateToken().then(result => {
         if (result) {
           handleLogin();
@@ -149,3 +171,11 @@ app.on("ready", function() {
     mainWindow.show();
   });
 });
+
+class Player {
+  constructor(token, uuid, name) {
+    this.token = token;
+    this.uuid = uuid;
+    this.name = name;
+  }
+}
