@@ -19,7 +19,7 @@ stages:
 NPM Install:
   stage: Preparing
   script:
-    - npm i
+    - npm install --dev
 
 Testing:
   stage: Testing
