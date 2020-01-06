@@ -38,7 +38,7 @@ let optsModded = {
   forge: "./forge-1.12.2-14.23.5.2847-universal.jar",
 };
 
-function checkPrerequisites(modded) {
+async function checkPrerequisites(modded) {
   if (totalmem < 4) {
     return false;
   }
@@ -67,6 +67,7 @@ class Launcher {
     }
 
     checkPrerequisites(false).then(result => {
+      console.log(result);
       if (result) {
         launcher.launch(optsVanilla);
         launcher.on("debug", e => console.log(e));
