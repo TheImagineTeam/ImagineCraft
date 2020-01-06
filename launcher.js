@@ -69,7 +69,12 @@ class Launcher {
     checkPrerequisites(false).then(result => {
       if (result) {
         launcher.launch(optsVanilla);
-        launcher.on("debug", e => console.log(e));
+        launcher.on("debug", e => {
+          console.log(e);
+          fs.appendFile("debug_log.txt", e + "\n", function(err) {
+            if (err) throw err;
+          });
+        });
         launcher.on("data", e => console.log(e));
       } else {
         //TODO: Handle java launch error
@@ -87,7 +92,12 @@ class Launcher {
     checkPrerequisites(true).then(result => {
       if (result) {
         launcher.launch(optsModded);
-        launcher.on("debug", e => console.log(e));
+        launcher.on("debug", e => {
+          console.log(e);
+          fs.appendFile("debug_log.txt", e + "\n", function(err) {
+            if (err) throw err;
+          });
+        });
         launcher.on("data", e => console.log(e));
       } else {
         //TODO: Handle java launch error
