@@ -35,7 +35,7 @@ let optsModded = {
     max: (totalmem - 2) * 1024,
     min: "1024",
   },
-  forge: "C:\\Users\\Jan\\Desktop\\forge-1.12.2-14.23.5.2847-universal.jar",
+  forge: "./forge-1.12.2-14.23.5.2847-universal.jar",
 };
 
 function checkPrerequisites(modded) {
