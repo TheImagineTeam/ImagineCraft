@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "electron-packager": "^14.1.1",
-    "electron-winstaller": "^4.0.0"
+    "electron-winstaller": "^4.0.0",
+    "rcedit": "^2.1.0"
   }
 }
