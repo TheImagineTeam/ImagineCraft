@@ -12,7 +12,7 @@ stages:
   - deploy
 
 Windows Package:
-  image: jandevde/electron-winebuilder:latest
+  image: stefanscherer/node-windows
   stage: build
   script:
     - npm install
