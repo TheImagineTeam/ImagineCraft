@@ -67,7 +67,6 @@ class Launcher {
     }
 
     checkPrerequisites(false).then(result => {
-      console.log(result);
       if (result) {
         launcher.launch(optsVanilla);
         launcher.on("debug", e => console.log(e));
