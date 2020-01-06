@@ -15,6 +15,7 @@ function getInstallerConfig() {
   const outPath = path.join(rootPath, "release-builds");
 
   return Promise.resolve({
+    loadingGif: path.join(rootPath, "assets", "img", "install.gif"),
     appDirectory: path.join(outPath, "ImagineCraft-win32-ia32/"),
     authors: "DomiiBunn, Jan",
     noMsi: true,
