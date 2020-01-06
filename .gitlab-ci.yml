@@ -1,19 +1,25 @@
 image: node:latest
 before_script:
-  - npm i
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - /release-builds
+    - /node_modules
+    - /release-builds
 
 variables:
 
 stages:
+  - Preparing
   - Testing
   - Packaging
   - Creating Installers
   - Deploying
+
+NPM Install:
+  stage: Preparing
+  script:
+    - npm i
 
 Testing:
   stage: Testing
