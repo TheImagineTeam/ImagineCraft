@@ -24,7 +24,7 @@ stages:
 NPM Install:
   stage: Preparing
   script:
-    - npm install --dev
+    - npm install --only=dev
 
 Testing:
   stage: Testing
@@ -34,6 +34,7 @@ Testing:
 Windows Pckage:
   stage: Packaging
   script:
+    - npm install --only=dev
     - npm run package-win
 
 Windows Installer:
