@@ -1,6 +1,7 @@
 {
   "name": "imaginecraft",
   "productName": "ImagineCraft",
+  "appId": "team.imagine.imaginecraft",
   "version": "1.0.0",
   "description": "ImagineCraft Launcher",
   "main": "app.js",
