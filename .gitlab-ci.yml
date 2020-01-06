@@ -20,12 +20,12 @@ Testing:
   script:
   - echo "Pass"
 
-Windows:
+Windows Pckage:
   stage: Packaging
   script:
     - npm run package-win
 
-Windows:
+Windows Installer:
   stage: Creating Installers
   script:
     - npm run create-installer-win
