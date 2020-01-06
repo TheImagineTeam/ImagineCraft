@@ -1,11 +1,5 @@
 image: stefanscherer/node-windows:latest
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - /node_modules
-    - /release-builds
-
 stages:
   - build
   - create-installer
