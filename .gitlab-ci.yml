@@ -17,6 +17,9 @@ Windows Package:
   script:
     - npm install
     - npm run package-win
+    paths:
+      - /
+    expire_in: 1 week
 
 Windows Installer:
   stage: create-installer
