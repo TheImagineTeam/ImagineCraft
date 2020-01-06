@@ -21,7 +21,7 @@ function getInstallerConfig() {
     noMsi: true,
     outputDirectory: path.join(outPath, "windows-installer"),
     exe: "ImagineCraft.exe",
-    setupExe: "ImagineCraft.exe",
+    setupExe: "ImagineCraft_Installer.exe",
     setupIcon: path.join(rootPath, "assets", "img", "icon.ico"),
   });
 }
