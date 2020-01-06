@@ -19,7 +19,6 @@
 
 .bg {
     background-color: #a83262;
-    background-image: url('file:///assets/img/failtoload.jpg');
     background-size: cover;
     border-radius: 25px;
 }
