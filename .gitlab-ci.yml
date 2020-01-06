@@ -12,15 +12,10 @@ stages:
   - deploy
 
 Windows Package:
-  image: stefanscherer/node-windows
   stage: build
   script:
     - npm install
     - npm run package-win
-  artifacts:
-    paths:
-      - /
-    expire_in: 1 week
 
 Windows Installer:
   stage: create-installer
