@@ -77,7 +77,7 @@ class Authentication {
           json["selectedProfile"]["id"],
           json["selectedProfile"]["name"],
           getUniqueIdentifier(),
-          json["user"]["properties"] || {},
+          JSON.stringify(json["user"]["properties"] || {}),
         );
     } else {
       result = new GeneralAuthenticationResult(res.status);
