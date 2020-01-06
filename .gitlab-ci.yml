@@ -1,42 +1,27 @@
 image: node:latest
-before_script:
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - /node_modules
     - /release-builds
-  
+
 stages:
-  - Preparing
-  - Testing
-  - Packaging
-  - Creating Installers
-  - Deploying
+  - build
+  - create-installer
+  - deploy
 
-NPM Install:
-  stage: Preparing
+Windows Package:
+  stage: build
   script:
-    - npm install --only=dev
-
-Testing:
-  stage: Testing
-  script:
-  - echo "Pass"
-
-Windows Pckage:
-  stage: Packaging
-  script:
-    - npm install --only=dev
+    - npm install
     - npm run package-win
 
 Windows Installer:
-  stage: Creating Installers
+  stage: create-installer
   script:
     - npm run create-installer-win
   artifacts:
     paths:
       - /release-builds
     expire_in: 1 week
-
-
