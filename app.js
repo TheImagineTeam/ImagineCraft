@@ -39,6 +39,7 @@ ipc.on("login", function(event, username, password) {
         redirectLogin();
       });
     } else {
+      console.log(client);
       //TODO: Handle login error
     }
   });
@@ -52,6 +53,7 @@ ipc.on("logout", function(event) {
           redirectLogout();
         });
       } else {
+        console.log(result);
         //TODO: Handle logout error
       }
     });
@@ -164,7 +166,7 @@ async function pushTokenToPlayerArchive(token) {
       archive
         .findGroupsByTitle("Minecraft")[0]
         .getEntries()[0]
-        .setProperty("clientToken", token);
+        .setProperty("accessToken", token);
 
       return fileDatasource.save(archive.getHistory(), credentials);
     });
@@ -192,11 +194,11 @@ async function validateToken() {
       if (client1.code !== 204) {
         return auth.Authentication.refresh(player.token).then(client2 => {
           if (client2.result) {
-            pushTokenToPlayerArchive(client2.token).then(() => {
+            return pushTokenToPlayerArchive(client2.token).then(() => {
               return true;
             });
           } else {
-            deletePlayerFromArchive().then(() => {
+            return deletePlayerFromArchive().then(() => {
               return false;
             });
           }
