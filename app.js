@@ -1,41 +1,32 @@
 const url = require("url");
 const path = require("path");
 const glob = require("glob");
-const {
-  Archive,
-  Datasources,
-  Credentials
-} = require("buttercup");
-const {
-  FileDatasource
-} = Datasources;
+const { Archive, Datasources, Credentials } = require("buttercup");
+const { FileDatasource } = Datasources;
 const archive = Archive.createWithDefaults();
 const credentials = Credentials.fromPassword("masterpw");
 const auth = require("./auth.js");
 const launcher = require("./launcher.js");
 const ipc = require("electron").ipcMain;
+const { app, BrowserWindow } = require("electron");
+
 //handle setupevents as quickly as possible
-const setupEvents = require('./installers/setupEvents')
+const setupEvents = require("./installers/setupEvents");
 if (setupEvents.handleSquirrelEvent()) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
   return;
 }
-
-const {
-  app,
-  BrowserWindow
-} = require("electron");
 
 if (process.mas) app.setName("ImagineCraft");
 app.allowRendererProcessReuse = true;
 
 let mainWindow = null;
 
-app.on("window-all-closed", function () {
+app.on("window-all-closed", function() {
   app.quit();
 });
 
-ipc.on("login", function (event, username, password) {
+ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
     if (client.result) {
       pushPlayerToArchive(
@@ -53,7 +44,7 @@ ipc.on("login", function (event, username, password) {
   });
 });
 
-ipc.on("logout", function (event) {
+ipc.on("logout", function(event) {
   getPlayerFromArchive().then(player => {
     auth.Authentication.logout(player.token).then(result => {
       if (result.code === 204) {
@@ -67,13 +58,13 @@ ipc.on("logout", function (event) {
   });
 });
 
-ipc.on("getplayer", function (event) {
+ipc.on("getplayer", function(event) {
   getPlayerFromArchive().then(player => {
     event.returnValue = player;
   });
 });
 
-ipc.on("startmodded", function (event) {
+ipc.on("startmodded", function(event) {
   getPlayerFromArchive().then(player => {
     launcher.Launcher.launchModded(
       new LauncherAuth(
@@ -87,7 +78,7 @@ ipc.on("startmodded", function (event) {
   });
 });
 
-ipc.on("startvanilla", function (event) {
+ipc.on("startvanilla", function(event) {
   getPlayerFromArchive().then(player => {
     launcher.Launcher.launchVanilla(
       new LauncherAuth(
@@ -137,7 +128,7 @@ async function getPlayerFromArchive() {
         entry.getProperty("userProperties"),
       );
     })
-    .catch(function () {
+    .catch(function() {
       return null;
     });
 }
@@ -218,7 +209,7 @@ async function validateToken() {
 }
 
 //Listen for app to ready
-app.on("ready", function () {
+app.on("ready", function() {
   mainWindow = new BrowserWindow({
     resizable: false,
     width: 1100,

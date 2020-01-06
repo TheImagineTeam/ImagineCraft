@@ -2,7 +2,7 @@
   "name": "imaginecraft",
   "productName": "ImagineCraft",
   "version": "1.0.0",
-  "description": "ImagineCraft Luncher",
+  "description": "ImagineCraft Launcher",
   "main": "app.js",
   "scripts": {
     "start": "electron .",
@@ -31,7 +31,7 @@
     "bootstrap-material-design": "^4.1.2",
     "popper.js": "^1.16.0",
     "mz": "^2.7.0",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "electron-packager": "^14.1.1",
