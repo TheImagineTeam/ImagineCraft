@@ -7,13 +7,6 @@ cache:
     - /node_modules
     - /release-builds
   
-artifacts:
-  paths:
-    - /release-builds
-  expire_in: 1 week
-
-variables:
-
 stages:
   - Preparing
   - Testing
@@ -41,5 +34,9 @@ Windows Installer:
   stage: Creating Installers
   script:
     - npm run create-installer-win
+  artifacts:
+    paths:
+      - /release-builds
+    expire_in: 1 week
 
 
