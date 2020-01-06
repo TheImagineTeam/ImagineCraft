@@ -12,6 +12,7 @@ stages:
   - deploy
 
 Windows Package:
+  image: electronuserland/builder:wine
   stage: build
   script:
     - npm install
