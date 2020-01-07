@@ -64,7 +64,8 @@ ipc.on("getplayer", async function(event) {
 
 ipc.on("startmodded", async function(event) {
   let player = await getPlayerFromArchive();
-  launcherInstance.launchModded(
+  launcherInstance.launch(
+    "modded",
     new LauncherAuth(
       player.token,
       player.uuid,
@@ -77,7 +78,8 @@ ipc.on("startmodded", async function(event) {
 
 ipc.on("startvanilla", async function(event) {
   let player = await getPlayerFromArchive();
-  launcherInstance.launchVanilla(
+  launcherInstance.launch(
+    "vanilla",
     new LauncherAuth(
       player.token,
       player.uuid,

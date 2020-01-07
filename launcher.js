@@ -93,8 +93,8 @@ class Launcher {
     this.mainWindow = mainWindow;
   }
 
-  async launchVanilla(auth) {
-    let opts = await getOpts("vanilla", auth);
+  async launch(packname, auth) {
+    let opts = await getOpts(packname, auth);
     let isPrerequisites = await checkPrerequisites();
 
     if (!fs.existsSync(app.getPath("appData") + "\\imaginecraft")) {
@@ -105,18 +105,46 @@ class Launcher {
       launcher.removeAllListeners("debug");
       launcher.removeAllListeners("data");
       launcher.launch(opts);
-      this.mainWindow.webContents.send("play-update", "Running");
+      this.mainWindow.webContents.send("play-update", "(0 %) Starting...");
       launcher.on("debug", e => {
+        if (e.includes("Extracting client package")) {
+          this.mainWindow.webContents.send(
+            "play-update",
+            "(10 %) Downloading modpack...",
+          );
+        } else if (e.includes("Detected Forge in options")) {
+          this.mainWindow.webContents.send(
+            "play-update",
+            "(50 %) Downloading forge...",
+          );
+        } else if (e.includes("Attempting to download assets")) {
+          this.mainWindow.webContents.send(
+            "play-update",
+            "(80 %) Downloading assets...",
+          );
+        } else if (e.includes("Set launch options")) {
+          this.mainWindow.webContents.send(
+            "play-update",
+            "(99 %) Finalizing...",
+          );
+        }
+
         console.log(e);
         fs.appendFile("debug_log.txt", e + "\n", function(err) {
           if (err) throw err;
         });
       });
-      launcher.on("data", e => console.log(e));
+      launcher.on("data", e => {
+        if (e.includes("Setting user")) {
+          this.mainWindow.webContents.send("play-update", "Running");
+        }
+
+        console.log(e);
+      });
       launcher.on("close", e => {
         this.mainWindow.webContents.send(
           "play-update",
-          e == 0 ? "Play now" : "Crashed",
+          e == 0 ? "Play now" : "Crashed (Check logs and try again)",
         );
       });
     } else {
@@ -124,30 +152,6 @@ class Launcher {
         "play-update",
         "Please install Java 8 64-Bit",
       );
-    }
-  }
-
-  async launchModded(auth) {
-    let opts = await getOpts("modded", auth);
-    let isPrerequisites = await checkPrerequisites();
-
-    if (!fs.existsSync(app.getPath("appData") + "\\imaginecraft")) {
-      fs.mkdirSync(app.getPath("appData") + "\\imaginecraft");
-    }
-
-    if (isPrerequisites) {
-      launcher.removeAllListeners("debug");
-      launcher.removeAllListeners("data");
-      launcher.launch(opts);
-      launcher.on("debug", e => {
-        console.log(e);
-        fs.appendFile("debug_log.txt", e + "\n", function(err) {
-          if (err) throw err;
-        });
-      });
-      launcher.on("data", e => console.log(e));
-    } else {
-      //TODO: Handle java launch error
     }
   }
 }
