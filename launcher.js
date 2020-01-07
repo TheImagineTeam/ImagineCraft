@@ -32,7 +32,7 @@ async function getOpts(packname, auth) {
   let opts = {
     clientPackage: null,
     authorization: auth,
-    root: app.getPath("appData") + "\\.imaginecraft\\" + packname,
+    root: app.getPath("appData") + "\\imaginecraft\\" + packname,
     os: "windows",
     version: {
       number: null,
@@ -43,7 +43,7 @@ async function getOpts(packname, auth) {
       min: "1024",
     },
     forge:
-      app.getPath("appData") + "\\.imaginecraft\\" + packname + "\\forge.jar",
+      app.getPath("appData") + "\\imaginecraft\\" + packname + "\\forge.jar",
     server: {
       host: null,
       port: null,
@@ -97,8 +97,8 @@ class Launcher {
     let opts = await getOpts("vanilla", auth);
     let isPrerequisites = await checkPrerequisites();
 
-    if (!fs.existsSync(app.getPath("appData") + "\\.imaginecraft")) {
-      fs.mkdirSync(app.getPath("appData") + "\\.imaginecraft");
+    if (!fs.existsSync(app.getPath("appData") + "\\imaginecraft")) {
+      fs.mkdirSync(app.getPath("appData") + "\\imaginecraft");
     }
 
     if (isPrerequisites) {
@@ -131,8 +131,8 @@ class Launcher {
     let opts = await getOpts("modded", auth);
     let isPrerequisites = await checkPrerequisites();
 
-    if (!fs.existsSync(app.getPath("appData") + "\\.imaginecraft")) {
-      fs.mkdirSync(app.getPath("appData") + "\\.imaginecraft");
+    if (!fs.existsSync(app.getPath("appData") + "\\imaginecraft")) {
+      fs.mkdirSync(app.getPath("appData") + "\\imaginecraft");
     }
 
     if (isPrerequisites) {
