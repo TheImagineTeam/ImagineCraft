@@ -90,9 +90,9 @@
                 Play Vanilla Minecraft with a small twist to enjoy the
                 ImagineCraft Server a little more!
               </p>
-              <a href="#" id="playnow" class="btn btn-white btn-round"
-                >Please login</a
-              >
+              <button id="playnow" class="btn btn-white btn-round">
+                Please login
+              </button>
             </div>
           </div>
         </div>
@@ -154,8 +154,13 @@
                 .addEventListener("click", e => {
                   ipc.send("startvanilla");
 
-                  ipc.on("play-update", (event, update) => {
-                    document.getElementById("playnow").innerHTML = update;
+                  ipc.on("play-update", (event, startable, status) => {
+                    if (startable) {
+                      document.getElementById("playnow").disabled = false;
+                    } else {
+                      document.getElementById("playnow").disabled = true;
+                    }
+                    document.getElementById("playnow").innerHTML = status;
                   });
                 });
 

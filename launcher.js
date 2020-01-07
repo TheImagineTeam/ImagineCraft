@@ -105,26 +105,34 @@ class Launcher {
       launcher.removeAllListeners("debug");
       launcher.removeAllListeners("data");
       launcher.launch(opts);
-      this.mainWindow.webContents.send("play-update", "(0 %) Starting...");
+      this.mainWindow.webContents.send(
+        "play-update",
+        false,
+        "(0 %) Starting...",
+      );
       launcher.on("debug", e => {
         if (e.includes("Extracting client package")) {
           this.mainWindow.webContents.send(
             "play-update",
+            false,
             "(10 %) Downloading modpack...",
           );
         } else if (e.includes("Detected Forge in options")) {
           this.mainWindow.webContents.send(
             "play-update",
+            false,
             "(50 %) Downloading forge...",
           );
         } else if (e.includes("Attempting to download assets")) {
           this.mainWindow.webContents.send(
             "play-update",
+            false,
             "(80 %) Downloading assets...",
           );
         } else if (e.includes("Set launch options")) {
           this.mainWindow.webContents.send(
             "play-update",
+            false,
             "(99 %) Finalizing...",
           );
         }
@@ -136,7 +144,7 @@ class Launcher {
       });
       launcher.on("data", e => {
         if (e.includes("Setting user")) {
-          this.mainWindow.webContents.send("play-update", "Running");
+          this.mainWindow.webContents.send("play-update", false, "Running");
         }
 
         console.log(e);
@@ -144,12 +152,14 @@ class Launcher {
       launcher.on("close", e => {
         this.mainWindow.webContents.send(
           "play-update",
+          true,
           e == 0 ? "Play now" : "Crashed (Check logs and try again)",
         );
       });
     } else {
       this.mainWindow.webContents.send(
         "play-update",
+        true,
         "Please install Java 8 64-Bit",
       );
     }
