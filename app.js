@@ -36,8 +36,7 @@ ipc.on("login", function(event, username, password) {
         redirectLogin();
       });
     } else {
-      console.log(client);
-      //TODO: Handle login error
+      event.reply("login-failed");
     }
   });
 });
@@ -51,7 +50,7 @@ ipc.on("logout", function(event) {
         });
       } else {
         console.log(result);
-        //TODO: Handle logout error
+        // We don't handle this, because it will not happen. :)
       }
     });
   });

@@ -86,7 +86,12 @@
             </div>
             <div class="card-body" style="-webkit-app-region: no-drag">
               <h4 class="card-title">Login To Minecraft</h4>
-              <div class="alert alert-danger" role="alert" hidden>
+              <div
+                id="login-failed"
+                class="alert alert-danger"
+                role="alert"
+                hidden
+              >
                 Login Failed. Please try again.
               </div>
               <form onsubmit="return false">
@@ -145,6 +150,10 @@
             if (player != null) {
               window.location.href = "loggedin.html";
             }
+          });
+
+          ipc.on("login-failed", event => {
+            document.getElementById("login-failed").hidden = false;
           });
         }
 
