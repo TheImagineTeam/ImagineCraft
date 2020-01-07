@@ -72,7 +72,6 @@ class Authentication {
         );
       else
         result = new ValidAuthenticationResult(
-          //clientToken, selectedProfile, userProperties
           json["accessToken"],
           json["selectedProfile"]["id"],
           json["selectedProfile"]["name"],

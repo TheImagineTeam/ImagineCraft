@@ -4,105 +4,137 @@ const { app } = require("electron");
 const fs = require("fs");
 const sys = require("os");
 const child = require("child_process");
+const fetch = require("node-fetch");
+const Constants_1 = require("./constants");
 const launcher = new Client();
 const totalmem = Math.round(sys.totalmem() / 1073741824) - 1;
 
-let optsVanilla = {
-  clientPackage: null,
-  authorization: null,
-  root: app.getPath("appData") + "\\.imaginecraft\\vanilla",
-  os: "windows",
-  version: {
-    number: "1.15.1",
-    type: "release",
-  },
-  memory: {
-    max: (totalmem - 2) * 1024,
-    min: "1024",
-  },
-};
+async function getOptsInformation(packname) {
+  let res = await fetch.default(
+    Constants_1.Endpoints.DOWNLOAD_SERVER + packname + ".json",
+    new (class {
+      constructor() {
+        this.method = "GET";
+      }
+    })(),
+  );
 
-let optsModded = {
-  clientPackage: "C:\\Users\\Jan\\Desktop\\mod.zip",
-  authorization: null,
-  root: app.getPath("appData") + "\\.imaginecraft\\modded",
-  os: "windows",
-  version: {
-    number: "1.12.2",
-    type: "release",
-  },
-  memory: {
-    max: (totalmem - 2) * 1024,
-    min: "1024",
-  },
-  forge: "./forge-1.12.2-14.23.5.2847-universal.jar",
-};
+  let json = await res.json();
 
-async function checkPrerequisites(modded) {
+  return new OptsInformation(
+    json["mc-version"],
+    json["download-link"],
+    json["mc-server-host"],
+    json["mc-server-port"],
+  );
+}
+
+async function getOpts(packname, auth) {
+  let opts = {
+    clientPackage: null,
+    authorization: auth,
+    root: app.getPath("appData") + "\\.imaginecraft\\" + packname,
+    os: "windows",
+    version: {
+      number: null,
+      type: "release",
+    },
+    memory: {
+      max: (totalmem - 2) * 1024,
+      min: "1024",
+    },
+    forge:
+      app.getPath("appData") + "\\.imaginecraft\\" + packname + "\\forge.jar",
+    server: {
+      host: undefined,
+      port: undefined,
+    },
+  };
+
+  let optsInformation = await getOptsInformation(packname);
+
+  opts.version.number = optsInformation.mcVersion;
+  opts.clientPackage = optsInformation.downloadLink;
+
+  if (optsInformation.mcServerHost !== "") {
+    opts.server.host = optsInformation.mcServerHost;
+  }
+  if (optsInformation.mcServerPort !== "") {
+    opts.server.port = optsInformation.mcServerPort;
+  }
+
+  return opts;
+}
+
+async function checkPrerequisites() {
   if (totalmem < 4) {
     return false;
   }
-  if (modded) {
-    return new Promise(resolve => {
-      child.exec("java -version", (error, stdout, stderr) => {
-        if (error) {
-          resolve(false);
-        } else if (stderr.includes("64-Bit") && stderr.includes("1.8")) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
+
+  return new Promise(resolve => {
+    child.exec("java -version", (error, stdout, stderr) => {
+      if (error) {
+        resolve(false);
+      } else if (stderr.includes("64-Bit") && stderr.includes("1.8")) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
     });
-  }
-  return true;
+  });
 }
 
 class Launcher {
-  static launchVanilla(auth) {
-    optsVanilla.authorization = auth;
+  static async launchVanilla(auth) {
+    let opts = await getOpts("vanilla", auth);
+    let isPrerequisites = await checkPrerequisites();
 
     if (!fs.existsSync(app.getPath("appData") + "\\.imaginecraft")) {
       fs.mkdirSync(app.getPath("appData") + "\\.imaginecraft");
     }
 
-    checkPrerequisites(false).then(result => {
-      if (result) {
-        launcher.launch(optsVanilla);
-        launcher.on("debug", e => {
-          console.log(e);
-          fs.appendFile("debug_log.txt", e + "\n", function(err) {
-            if (err) throw err;
-          });
+    if (isPrerequisites) {
+      launcher.launch(opts);
+      launcher.on("debug", e => {
+        console.log(e);
+        fs.appendFile("debug_log.txt", e + "\n", function(err) {
+          if (err) throw err;
         });
-        launcher.on("data", e => console.log(e));
-      } else {
-        //TODO: Handle java launch error
-      }
-    });
+      });
+      launcher.on("data", e => console.log(e));
+    } else {
+      //TODO: Handle java launch error
+    }
   }
 
-  static launchModded(auth) {
-    optsModded.authorization = auth;
+  static async launchModded(auth) {
+    let opts = await getOpts("modded", auth);
+    let isPrerequisites = await checkPrerequisites();
 
     if (!fs.existsSync(app.getPath("appData") + "\\.imaginecraft")) {
       fs.mkdirSync(app.getPath("appData") + "\\.imaginecraft");
     }
 
-    checkPrerequisites(true).then(result => {
-      if (result) {
-        launcher.launch(optsModded);
-        launcher.on("debug", e => {
-          console.log(e);
-          fs.appendFile("debug_log.txt", e + "\n", function(err) {
-            if (err) throw err;
-          });
+    if (isPrerequisites) {
+      launcher.launch(opts);
+      launcher.on("debug", e => {
+        console.log(e);
+        fs.appendFile("debug_log.txt", e + "\n", function(err) {
+          if (err) throw err;
         });
-        launcher.on("data", e => console.log(e));
-      } else {
-        //TODO: Handle java launch error
-      }
-    });
+      });
+      launcher.on("data", e => console.log(e));
+    } else {
+      //TODO: Handle java launch error
+    }
+  }
+}
+class OptsInformation {
+  constructor(mcVersion, downloadLink, mcServerHost, mcServerPort) {
+    this.mcVersion = mcVersion;
+    this.downloadLink = downloadLink;
+    this.mcServerHost = mcServerHost;
+    this.mcServerPort = mcServerPort;
   }
 }
 exports.Launcher = Launcher;
