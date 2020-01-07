@@ -135,10 +135,13 @@
             );
           });
 
-          let player = ipc.sendSync("getplayer");
-          if (player != null) {
-            window.location.href = "loggedin.html";
-          }
+          ipc.send("getplayer");
+
+          ipc.on("getplayer-reply", (event, player) => {
+            if (player != null) {
+              window.location.href = "loggedin.html";
+            }
+          });
         }
 
         document.onreadystatechange = () => {

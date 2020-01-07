@@ -94,8 +94,7 @@
                     <i class="material-icons">person_add</i>
                   </a>
                 </li>
-              -->
-              </ul>
+              --></ul>
             </div>
             <div class="card-body">
               <h4 id="playername_body" class="card-title"></h4>
@@ -132,24 +131,28 @@
             ipc.send("logout");
           });
 
-          let player = ipc.sendSync("getplayer");
-          if (player != null) {
-            document.getElementById("playername_selector").innerHTML =
-              player.name;
-            document.getElementById("playername_body").innerHTML = player.name;
-            document.getElementById("skin").src =
-              "https://minotar.net/armor/body/" + player.uuid + "/100.png";
+          ipc.send("getplayer");
 
-            document.getElementById("playername").placeholder = player.name;
-            let playerhead = document.getElementById("playerhead");
-            playerhead.href = "loggedin.html";
-            let playerheadChildrens = playerhead.childNodes;
-            playerheadChildrens[1].remove();
-            let img = document.createElement("img");
-            img.src = "https://minotar.net/helm/" + player.uuid + "/100.png";
-            img.style = "max-width: 15px";
-            playerhead.appendChild(img);
-          }
+          ipc.on("getplayer-reply", (event, player) => {
+            if (player != null) {
+              document.getElementById("playername_selector").innerHTML =
+                player.name;
+              document.getElementById("playername_body").innerHTML =
+                player.name;
+              document.getElementById("skin").src =
+                "https://minotar.net/armor/body/" + player.uuid + "/100.png";
+
+              document.getElementById("playername").placeholder = player.name;
+              let playerhead = document.getElementById("playerhead");
+              playerhead.href = "loggedin.html";
+              let playerheadChildrens = playerhead.childNodes;
+              playerheadChildrens[1].remove();
+              let img = document.createElement("img");
+              img.src = "https://minotar.net/helm/" + player.uuid + "/100.png";
+              img.style = "max-width: 15px";
+              playerhead.appendChild(img);
+            }
+          });
         }
 
         document.onreadystatechange = () => {

@@ -60,10 +60,9 @@ ipc.on("logout", function(event) {
   });
 });
 
-ipc.on("getplayer", function(event) {
-  getPlayerFromArchive().then(player => {
-    event.returnValue = player;
-  });
+ipc.on("getplayer", async function(event) {
+  let player = await getPlayerFromArchive();
+  event.reply("getplayer-reply", player);
 });
 
 ipc.on("startmodded", function(event) {
@@ -189,25 +188,22 @@ async function deletePlayerFromArchive() {
 }
 
 async function validateToken() {
-  return getPlayerFromArchive().then(player => {
-    return auth.Authentication.validate(player.token).then(client1 => {
-      if (client1.code !== 204) {
-        return auth.Authentication.refresh(player.token).then(client2 => {
-          if (client2.result) {
-            return pushTokenToPlayerArchive(client2.token).then(() => {
-              return true;
-            });
-          } else {
-            return deletePlayerFromArchive().then(() => {
-              return false;
-            });
-          }
-        });
-      } else {
-        return true;
-      }
-    });
-  });
+  let player = await getPlayerFromArchive();
+  let validation = await auth.Authentication.validate(player.token);
+
+  if (validation.code !== 204) {
+    let refresh = await auth.Authentication.refresh(player.token);
+
+    if (refresh.result) {
+      await pushTokenToPlayerArchive(client2.token);
+      return true;
+    } else {
+      await deletePlayerFromArchive();
+      return false;
+    }
+  } else {
+    return true;
+  }
 }
 
 //Listen for app to ready
