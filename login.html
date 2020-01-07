@@ -136,4 +136,13 @@
   </script>
 </body>
 
+        document.onreadystatechange = () => {
+          // Note: Use complete if you require images, frames etc. in init.
+          if (document.readyState == "interactive") {
+            init();
+          }
+        };
+      })();
+    </script>
+  </body>
 </html>
