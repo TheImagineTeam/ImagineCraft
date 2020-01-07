@@ -46,8 +46,8 @@ async function getOpts(packname, auth) {
     forge:
       app.getPath("appData") + "\\.imaginecraft\\" + packname + "\\forge.jar",
     server: {
-      host: undefined,
-      port: undefined,
+      host: null,
+      port: null,
     },
   };
 
@@ -58,9 +58,12 @@ async function getOpts(packname, auth) {
 
   if (optsInformation.mcServerHost !== "") {
     opts.server.host = optsInformation.mcServerHost;
-  }
-  if (optsInformation.mcServerPort !== "") {
-    opts.server.port = optsInformation.mcServerPort;
+
+    if (optsInformation.mcServerPort !== "") {
+      opts.server.port = optsInformation.mcServerPort;
+    }
+  } else {
+    opts.server = undefined;
   }
 
   return opts;
@@ -94,6 +97,8 @@ class Launcher {
     }
 
     if (isPrerequisites) {
+      launcher.removeAllListeners("debug");
+      launcher.removeAllListeners("data");
       launcher.launch(opts);
       launcher.on("debug", e => {
         console.log(e);
@@ -116,6 +121,8 @@ class Launcher {
     }
 
     if (isPrerequisites) {
+      launcher.removeAllListeners("debug");
+      launcher.removeAllListeners("data");
       launcher.launch(opts);
       launcher.on("debug", e => {
         console.log(e);
