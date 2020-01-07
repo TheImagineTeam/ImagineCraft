@@ -1,5 +1,4 @@
-Object.defineProperty(exports, "__esModule", { value: true });
-const { Client, Authenticator } = require("minecraft-launcher-core");
+const { Client } = require("minecraft-launcher-core");
 const { app } = require("electron");
 const fs = require("fs");
 const sys = require("os");
@@ -87,8 +86,14 @@ async function checkPrerequisites() {
   });
 }
 
+// We could suse electron global variables, or just use getAllWindows instead of getFocusedWindow, or use browser-window-blur->setWindow
+// Actually, getFocusedWindow is only null when out of focus after closing the game
 class Launcher {
-  static async launchVanilla(auth) {
+  constructor(mainWindow) {
+    this.mainWindow = mainWindow;
+  }
+
+  async launchVanilla(auth) {
     let opts = await getOpts("vanilla", auth);
     let isPrerequisites = await checkPrerequisites();
 
@@ -100,6 +105,7 @@ class Launcher {
       launcher.removeAllListeners("debug");
       launcher.removeAllListeners("data");
       launcher.launch(opts);
+      this.mainWindow.webContents.send("play-update", "Running");
       launcher.on("debug", e => {
         console.log(e);
         fs.appendFile("debug_log.txt", e + "\n", function(err) {
@@ -107,12 +113,21 @@ class Launcher {
         });
       });
       launcher.on("data", e => console.log(e));
+      launcher.on("close", e => {
+        this.mainWindow.webContents.send(
+          "play-update",
+          e == 0 ? "Play now" : "Crashed",
+        );
+      });
     } else {
-      //TODO: Handle java launch error
+      this.mainWindow.webContents.send(
+        "play-update",
+        "Please install Java 8 64-Bit",
+      );
     }
   }
 
-  static async launchModded(auth) {
+  async launchModded(auth) {
     let opts = await getOpts("modded", auth);
     let isPrerequisites = await checkPrerequisites();
 
@@ -144,4 +159,4 @@ class OptsInformation {
     this.mcServerPort = mcServerPort;
   }
 }
-exports.Launcher = Launcher;
+module.exports = Launcher;

@@ -21,10 +21,7 @@ if (process.mas) app.setName("ImagineCraft");
 app.allowRendererProcessReuse = true;
 
 let mainWindow = null;
-
-app.on("window-all-closed", function() {
-  app.quit();
-});
+let launcherInstance = null;
 
 ipc.on("login", function(event, username, password) {
   auth.Authentication.login(username, password).then(client => {
@@ -67,7 +64,7 @@ ipc.on("getplayer", async function(event) {
 
 ipc.on("startmodded", async function(event) {
   let player = await getPlayerFromArchive();
-  launcher.Launcher.launchModded(
+  launcherInstance.launchModded(
     new LauncherAuth(
       player.token,
       player.uuid,
@@ -80,7 +77,7 @@ ipc.on("startmodded", async function(event) {
 
 ipc.on("startvanilla", async function(event) {
   let player = await getPlayerFromArchive();
-  launcher.Launcher.launchVanilla(
+  launcherInstance.launchVanilla(
     new LauncherAuth(
       player.token,
       player.uuid,
@@ -193,7 +190,7 @@ async function validateToken() {
     let refresh = await auth.Authentication.refresh(player.token);
 
     if (refresh.result) {
-      await pushTokenToPlayerArchive(client2.token);
+      await pushTokenToPlayerArchive(refresh.token);
       return true;
     } else {
       await deletePlayerFromArchive();
@@ -213,12 +210,18 @@ app.on("ready", function() {
     transparent: true,
     frame: false,
     show: false,
+    fullscreen: false,
+    maximizable: false,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
     },
   });
 
+  launcherInstance = new launcher(mainWindow);
+
+  //disables F11 fullscreen, but also disables development console
+  //mainWindow.setMenu(null);
   mainWindow.webContents.session.clearCache();
 
   getPlayerFromArchive().then(player => {
@@ -243,6 +246,10 @@ app.on("ready", function() {
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
   });
+});
+
+app.on("window-all-closed", function() {
+  app.quit();
 });
 
 class Player {

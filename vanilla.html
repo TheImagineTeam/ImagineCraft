@@ -148,13 +148,15 @@
 
           ipc.once("getplayer-reply", (event, player) => {
             if (player != null) {
-              document.getElementById("playnow").innerHTML = "Play now!";
+              document.getElementById("playnow").innerHTML = "Play now";
               document
                 .getElementById("playnow")
                 .addEventListener("click", e => {
                   ipc.send("startvanilla");
 
-                  ipc.on("play-update", (event, update) => {});
+                  ipc.on("play-update", (event, update) => {
+                    document.getElementById("playnow").innerHTML = update;
+                  });
                 });
 
               document.getElementById("playername").placeholder = player.name;
