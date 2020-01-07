@@ -102,7 +102,7 @@
 
           ipc.send("getplayer");
 
-          ipc.on("getplayer-reply", (event, player) => {
+          ipc.once("getplayer-reply", (event, player) => {
             if (player != null) {
               document.getElementById("playername").placeholder = player.name;
               let playerhead = document.getElementById("playerhead");

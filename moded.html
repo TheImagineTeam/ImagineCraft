@@ -146,7 +146,7 @@
 
           ipc.send("getplayer");
 
-          ipc.on("getplayer-reply", (event, player) => {
+          ipc.once("getplayer-reply", (event, player) => {
             if (player != null) {
               document.getElementById("playnow").innerHTML = "Play now!";
               document

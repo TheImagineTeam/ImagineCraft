@@ -65,32 +65,30 @@ ipc.on("getplayer", async function(event) {
   event.reply("getplayer-reply", player);
 });
 
-ipc.on("startmodded", function(event) {
-  getPlayerFromArchive().then(player => {
-    launcher.Launcher.launchModded(
-      new LauncherAuth(
-        player.token,
-        player.uuid,
-        player.name,
-        player.clientToken,
-        player.userProperties,
-      ),
-    );
-  });
+ipc.on("startmodded", async function(event) {
+  let player = await getPlayerFromArchive();
+  launcher.Launcher.launchModded(
+    new LauncherAuth(
+      player.token,
+      player.uuid,
+      player.name,
+      player.clientToken,
+      player.userProperties,
+    ),
+  );
 });
 
-ipc.on("startvanilla", function(event) {
-  getPlayerFromArchive().then(player => {
-    launcher.Launcher.launchVanilla(
-      new LauncherAuth(
-        player.token,
-        player.uuid,
-        player.name,
-        player.clientToken,
-        player.userProperties,
-      ),
-    );
-  });
+ipc.on("startvanilla", async function(event) {
+  let player = await getPlayerFromArchive();
+  launcher.Launcher.launchVanilla(
+    new LauncherAuth(
+      player.token,
+      player.uuid,
+      player.name,
+      player.clientToken,
+      player.userProperties,
+    ),
+  );
 });
 
 function redirectLogin() {
