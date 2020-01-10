@@ -25,6 +25,7 @@ async function getOptsInformation(packname) {
     json["download-link"],
     json["mc-server-host"],
     json["mc-server-port"],
+    json["ram-minimum"],
   );
 }
 
@@ -40,7 +41,7 @@ async function getOpts(packname, auth) {
     },
     memory: {
       max: (totalmem - 2) * 1024,
-      min: "1024",
+      min: null,
     },
     forge:
       app.getPath("appData") + "\\imaginecraft\\" + packname + "\\forge.jar",
@@ -54,6 +55,7 @@ async function getOpts(packname, auth) {
 
   opts.version.number = optsInformation.mcVersion;
   opts.clientPackage = optsInformation.downloadLink;
+  opts.memory.min = optsInformation.ramMinimum;
 
   if (optsInformation.mcServerHost !== "") {
     opts.server.host = optsInformation.mcServerHost;
@@ -166,11 +168,12 @@ class Launcher {
   }
 }
 class OptsInformation {
-  constructor(mcVersion, downloadLink, mcServerHost, mcServerPort) {
+  constructor(mcVersion, downloadLink, mcServerHost, mcServerPort, ramMinimum) {
     this.mcVersion = mcVersion;
     this.downloadLink = downloadLink;
     this.mcServerHost = mcServerHost;
     this.mcServerPort = mcServerPort;
+    this.ramMinimum = ramMinimum;
   }
 }
 module.exports = Launcher;
