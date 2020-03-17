@@ -104,6 +104,16 @@ class Launcher {
     }
 
     if (isPrerequisites) {
+      let today = new Date();
+      let date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+      let time =
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      let dateTime = date + " " + time;
       launcher.removeAllListeners("debug");
       launcher.removeAllListeners("data");
       launcher.launch(opts);
@@ -140,7 +150,9 @@ class Launcher {
         }
 
         console.log(e);
-        fs.appendFile("debug_log.txt", e + "\n", function(err) {
+        fs.appendFile("debug_log.txt", dateTime + " " + e + "\n", function(
+          err,
+        ) {
           if (err) throw err;
         });
       });
@@ -150,6 +162,9 @@ class Launcher {
         }
 
         console.log(e);
+        fs.appendFile("debug_log.txt", date + " " + e + "\n", function(err) {
+          if (err) throw err;
+        });
       });
       launcher.on("close", e => {
         this.mainWindow.webContents.send(
