@@ -150,11 +150,13 @@ class Launcher {
         }
 
         console.log(e);
-        fs.appendFile("debug_log.txt", dateTime + " " + e + "\n", function(
-          err,
-        ) {
-          if (err) throw err;
-        });
+        fs.appendFile(
+          app.getPath("appData") + "\\imaginecraft\\" + "debug_log.txt",
+          dateTime + " " + e + "\n",
+          function(err) {
+            if (err) throw err;
+          },
+        );
       });
       launcher.on("data", e => {
         if (e.includes("Setting user")) {
@@ -162,9 +164,13 @@ class Launcher {
         }
 
         console.log(e);
-        fs.appendFile("debug_log.txt", date + " " + e + "\n", function(err) {
-          if (err) throw err;
-        });
+        fs.appendFile(
+          app.getPath("appData") + "\\imaginecraft\\" + "debug_log.txt",
+          date + " " + e + "\n",
+          function(err) {
+            if (err) throw err;
+          },
+        );
       });
       launcher.on("close", e => {
         this.mainWindow.webContents.send(
