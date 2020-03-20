@@ -57,12 +57,16 @@ async function getOpts(packname, auth) {
   opts.version.number = optsInformation.mcVersion;
   opts.memory.min = optsInformation.ramMinimum;
 
-  if (fs.existsSync(app.getPath("appData") + "\\imaginecraft\\meta.json")) {
+  if (
+    fs.existsSync(
+      app.getPath("appData") + "\\imaginecraft\\" + packname + "\\meta.json",
+    )
+  ) {
     let versionFile = fs.readFileSync(
-      app.getPath("appData") + "\\imaginecraft\\meta.json",
+      app.getPath("appData") + "\\imaginecraft\\" + packname + "\\meta.json",
     );
     let versionJson = JSON.parse(versionFile);
-    if (versionJson["version"] < optsInformation.modpackVersion) {
+    if (versionJson["modpack-version"] < optsInformation.modpackVersion) {
       opts.clientPackage = optsInformation.downloadLink;
     }
   } else {
