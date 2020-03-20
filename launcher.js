@@ -26,6 +26,7 @@ async function getOptsInformation(packname) {
     json["mc-server-host"],
     json["mc-server-port"],
     json["ram-minimum"],
+    json["modpack-version"],
   );
 }
 
@@ -54,8 +55,19 @@ async function getOpts(packname, auth) {
   let optsInformation = await getOptsInformation(packname);
 
   opts.version.number = optsInformation.mcVersion;
-  opts.clientPackage = optsInformation.downloadLink;
   opts.memory.min = optsInformation.ramMinimum;
+
+  if (fs.existsSync(app.getPath("appData") + "\\imaginecraft\\meta.json")) {
+    let versionFile = fs.readFileSync(
+      app.getPath("appData") + "\\imaginecraft\\meta.json",
+    );
+    let versionJson = JSON.parse(versionFile);
+    if (versionJson["version"] < optsInformation.modpackVersion) {
+      opts.clientPackage = optsInformation.downloadLink;
+    }
+  } else {
+    opts.clientPackage = optsInformation.downloadLink;
+  }
 
   if (optsInformation.mcServerHost !== "") {
     opts.server.host = optsInformation.mcServerHost;
@@ -189,12 +201,20 @@ class Launcher {
   }
 }
 class OptsInformation {
-  constructor(mcVersion, downloadLink, mcServerHost, mcServerPort, ramMinimum) {
+  constructor(
+    mcVersion,
+    downloadLink,
+    mcServerHost,
+    mcServerPort,
+    ramMinimum,
+    modpackVersion,
+  ) {
     this.mcVersion = mcVersion;
     this.downloadLink = downloadLink;
     this.mcServerHost = mcServerHost;
     this.mcServerPort = mcServerPort;
     this.ramMinimum = ramMinimum;
+    this.modpackVersion = modpackVersion;
   }
 }
 module.exports = Launcher;
