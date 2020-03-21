@@ -9,7 +9,7 @@
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --asar --platform=darwin --arch=x64 --icon=assets/img/icon.png --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/img/icon.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImagineCraft\"",
-    "package-win-ci": "electron-packager . --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/img/icon.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImagineCraft\"",
+    "package-win-ci": "electron-packager /tmp --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/img/icon.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImagineCraft\"",
     "package-linux": "electron-packager . --overwrite --asar --platform=linux --arch=x64 --icon=assets/img/icon.png --prune=true --out=release-builds",
     "create-installer-mac": "electron-installer-dmg ./release-builds/ImagineCraft-darwin-x64/Electron\\ tutorial\\ app.app electron-tutorial-app --out=release-builds --overwrite --icon=assets/img/icon.png",
     "create-installer-win": "node installers/windows/createinstaller.js"
