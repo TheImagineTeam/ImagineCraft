@@ -11,7 +11,7 @@ var Endpoints;
   Endpoints["MINECRAFT_AUTH_SERVER"] = "https://authserver.mojang.com/";
   Endpoints["MINECRAFT_ASSET_SERVER"] =
     "http://resources.download.minecraft.net/";
-  Endpoints["DOWNLOAD_SERVER"] = "https://imagineteam1.gitlab.io/web/imaginecraft/";
+  Endpoints["DOWNLOAD_SERVER"] = "https://launcher.imagine.team/";
 })((Endpoints = exports.Endpoints || (exports.Endpoints = {})));
 class Utils {
   static getPlatform() {
